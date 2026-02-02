@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1a1a1a; /* Dark background to make the photo pop */
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #content-card {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            height: 700px;
+            background: url('https://i.postimg.cc/xTcyF9TZ/Whats-App-Image-2026-02-02-at-4-23-56-PM.jpg') no-repeat center center;
+            background-size: cover;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 50px;
+            overflow: hidden;
+            border: 5px solid white;
+        }
+
+        /* Overlay to make text readable */
+        #content-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.6) 100%);
+            z-index: 1;
+        }
+
+        #main-ui, #itinerary {
+            position: relative;
+            z-index: 2;
+            width: 80%;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            margin-bottom: 30px;
+        }
+
+        .btn-container {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #noBtn {
+            background-color: white;
+            color: #333;
+            position: fixed; /* Fixed so it can move anywhere on screen */
+        }
+
+        /* Itinerary Reveal */
+        #itinerary {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            text-align: left;
+            animation: fadeIn 1s ease-in forwards;
+        }
+
+        .itinerary-item {
+            margin: 12px 0;
+            color: #590d22;
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="content-card">
+        <div id="main-ui">
+            <h1>Will you be my Valentine? ❤️</h1>
+            <div class="btn-container">
+                <button id="yesBtn" onclick="celebrate()">Yes!</button>
+                <button id="noBtn" onmouseover="moveButton()">No</button>
+            </div>
+        </div>
+
+        <div id="itinerary">
+            <h2 style="color:#ff4d6d; margin-top:0;">Yay! It's a Date! ❤️✨</h2>
+            <div class="itinerary-item">📍 <b>Where:</b> Your Favourite Place! </div>
+            <div class="itinerary-item">🌅 <b>When:</b> 14th Feb, Saturday, 4:00pm </div>
+            <div class="itinerary-item">🍱 <b>Plan:</b> Long Drive, Dinner, and just us.</div>
+            <p style="text-align:center; font-style: italic; margin-top: 20px;">I'll see you there! 🌹</p>
+        </div>
+    </div>
+
+    <script>
+        // Note: Replace the background URL in CSS (Line 31) with your actual uploaded image link!
+
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            // Confetti Blast
+            const duration = 5 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+              confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4d6d', '#ffffff'] });
+              confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d6d', '#ffffff'] });
+              if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+
+            // Reveal Itinerary
+            document.getElementById('main-ui').style.display = 'none';
+            document.getElementById('itinerary').style.display = 'block';
+            
+            // Remove the pesky No button forever
+            document.getElementById('noBtn').remove();
+        }
+    </script>
+</body>
+</html>
